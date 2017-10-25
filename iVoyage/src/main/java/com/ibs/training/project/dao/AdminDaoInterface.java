@@ -6,6 +6,6 @@ import com.ibs.training.project.entity.AdminEntity;
 
 public interface AdminDaoInterface {
 	
-	public List<AdminEntity> adminDetails();
+	public  List<AdminEntity> adminDetails();
 
 }
