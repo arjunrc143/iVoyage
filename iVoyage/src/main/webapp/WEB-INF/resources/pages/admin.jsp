@@ -50,80 +50,7 @@
 	
 		<!-- BEGIN:: Angular Scripts -->
 	
-		<script type="text/javascript">
-		
-		var app=angular.module("Admin",[]);
-		
-		app.controller("AdminController",function($scope,$http){
-		
-			$scope.adminDetails=[];
-			$scope.adminForm={
-					adminid:-1,
-					username:"",
-					password:"",
-			};
-			
-			_adminData();
-			
-			function _adminData(){
-				$http({
-					method:'GET',
-					url:'http://localhost:8080/iVoyage/admin'
-				}).then(function successCallback(response){
-					$scope.adminDetails=response.data;
-				}, function errorCallback(response) {
-					console.log(response.statusText);
-				}); 
-			}
-			
-			
-			$scope.submitQuery = function() {
-		         
-                var method = "";
-                var url = "";
-                if ($scope.adminForm.adminid == -1) {
-                    //Id is absent in form data, it is create
-                    method = "GET";
-                    url = 'http://localhost:8080/iVoyage/admin/success';
-                } else {
-                    //Id is present in form data, it is edit 
-                    method = "GET";
-                    url = 'http://localhost:8080/iVoyage/admin/failure';
-                }
-     
-                $http({
-                    method : method,
-                    url : url,
-                    data : angular.toJson($scope.adminForm),
-                    headers : {
-                        'Content-Type' : 'application/json'
-                    }
-                }).then( _success, _error );
-            };
-     
-			
-			
-			function _success(response) {
-				_adminData();
-                _clearFormData()
-            }
-     
-            function _error(response) {
-                console.log(response.statusText);
-            }
-     
-            //Clear the form
-            function _clearFormData() {
-                $scope.adminForm.adminid = -1;
-                $scope.adminForm.username = "";
-                $scope.adminForm.password = "";
-            
-            };
-			
-		});
-		
-		</script>
-
+		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/pages/angular/app/adminApp.js"></script>
 	
 		<!-- END:: -->
 		
@@ -137,8 +64,8 @@
 		    <div class="nav-wrapper">
 		      <a href="#!" class="brand-logo right">iVoyage</a>
 		      <ul class="left hide-on-med-and-down">
-		        <li><a href="flights.html">Flights</a></li>
-		        <li><a href="hotels.html">Hotels</a></li>
+		        <li><a href="" ng-click="flightNav()">Flights</a></li>
+		        <li><a href="" ng-click="hotelNav()">Hotels</a></li>
 		      </ul>
 		    </div>
 	  	</nav>
@@ -154,7 +81,7 @@
 		
 		    	<div class="container">
 		        	<div class="z-depth-1 white lighten-5/css/materialize row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
-			        	<form class="col s12" ng-submit="submitQuery">
+			        	<form class="col s12" ng-submit="submitQuery()">
 		            		<div class='row'>
 		              			<div class='col s12'></div>
 		            		</div>
@@ -184,7 +111,7 @@
 		        	</div>
 		      	</div>
 		      	
-		    	<ul><li ng-repeat="a in adminDetails">{{a}}</li></ul>
+		    	<ul><li ng-bind="incorrect"></li></ul>
 		    </center>
 		
 		    <div class="section"></div>
